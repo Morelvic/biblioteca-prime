@@ -5,10 +5,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ButtonModule } from 'primeng/button';
 import {MenubarModule} from 'primeng/menubar';
+import { LibrosComponent } from './libros/libros.component';
+import { AutoresComponent } from './autores/autores.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LibrosComponent,
+    AutoresComponent
   ],
   imports: [
     BrowserModule,
