@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Message } from 'primeng/api/message';
 import { Libro } from 'src/app/interfaces/libro.interface';
 import { LibrosService } from 'src/app/servicios/libros.service';
 
@@ -20,6 +21,7 @@ autorValido: boolean = true;
 paginasValido: boolean = true;
 
 guardando: boolean = false;
+mensajes: Message[] = [];
 
 
   constructor(
@@ -43,23 +45,26 @@ guardando: boolean = false;
       this.servicioLibros.post(libro).subscribe({
         next: () => {
           this.guardando = false;
+          this.mensajes = [{severity: 'success', summary: 'Éxito', detail: 'Se registró el libro'}];
 
         },
         error: (e) => {
           this.guardando = false;
-
+          console.log(e);
+          this.mensajes = [{severity: 'error', summary: 'Error al registrar', detail: e.error}];
         }
       });
 
     }
   }
 
-validar(){
+validar(): boolean{
  
 this.codigoValido = this.codigo !== null
 this.tituloValido = this.titulo !== null && this.titulo?.length > 0;
 this.autorValido = this.autor !== null && this.autor?.length > 0;
 this.paginasValido = this.paginas !== null;
+return this.codigoValido && this.tituloValido && this.autorValido && this.paginasValido;
 
 }
 
