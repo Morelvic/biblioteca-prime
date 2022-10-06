@@ -1,0 +1,8 @@
+.area-trabajo{
+    padding: 20px 25px 10px 25px;
+}
+
+:host >>> .p-menubar{
+    background: var(--surface-0);
+    border-radius: 0;
+}
