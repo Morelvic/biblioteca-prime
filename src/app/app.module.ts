@@ -40,7 +40,8 @@ import { MessagesModule } from 'primeng/messages';
     InputNumberModule,
     FormsModule,
     MessageModule,
-    MessagesModule
+    MessagesModule,
+    MessageModule
   ],
   providers: [],
   bootstrap: [AppComponent]

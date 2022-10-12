@@ -1,8 +1,19 @@
 <div class="tarjeta">
     <div style="margin-bottom: 15px;">
-    <button pButton label="Agregar" icon="pi pi-plus" (click)="mostrarDialogo()"></button>
+    <button
+     pButton
+     label="Agregar" 
+     icon="pi pi-plus" 
+     (click)="mostrarDialogo()">
+    </button>
 </div>
-<p-table [value]="listaLibros" [loading]="cargando">
+<p-table
+     [value]="listaLibros"
+     [loading]="cargando"
+     [paginator]="true" 
+     [rows]="10" 
+     [rowsPerPageOptions]="[10, 25, 50]"
+     responsiveLayout="scroll">
     <ng-template pTemplate="hearder">
         <tr>
             <th>Código</th>
@@ -21,6 +32,9 @@
         </ng-template>
 </p-table>
 </div>
-<p-dialog heard="Resgistrar Libro" [(visible)]="dialogoVisible" [modal]="true">
-    <app-formulario-libro></app-formulario-libro>
+<p-dialog 
+hearder="Resgistrar Libro" 
+[(visible)]="dialogoVisible" 
+[modal]="true">
+    <app-formulario-libro (recargarLibros)="cargarLibros()"></app-formulario-libro>
 </p-dialog>
