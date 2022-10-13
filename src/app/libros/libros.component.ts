@@ -56,20 +56,27 @@ tituloDialogo: string = 'Registrar libro';
     this.tituloDialogo = "Editar libro";
   }
 
-    eliminar(libro: Libro){
-      this.servicioConfirm.confirm({
-        message: "¿Realmente desea eliminar el libro: '"+libro.id+"_"+libro.titulo+'_'+libro.autor+'_'+libro.paginas+"'?",
-        acceptLabel: 'Eliminar',
-        rejectLabel: 'Cancelar',
-        acceptButtonStyleClass: 'p-button-danger',
-        acceptIcon: 'pi pi-trash',
-        accept: () =>{
-          this.mensajes = [{severity: 'succes', summary: 'Éxito', detail: 'Se elimino el libro.'}];
-          this.cargarLibros();
-        },
-       
+  eliminar(libro:Libro){
+    this.servicioConfirm.confirm({
+      message:"¿Realmente desea eliminar el libro:'"+libro.id+"-"+libro.titulo+"-"+libro.autor+"'?'?",
+      acceptLabel:'Eliminar',
+      rejectLabel:'Canselar',
+      acceptButtonStyleClass:'p-button-danger',
+      acceptIcon:'pi pi-trash',
+      accept:()=>{
+        this.servicioLibros.delete(libro).subscribe({
+          next:()=>{
+            this.mensajes=[{severity:'success', summary:'Exito',detail:'Se elimino correctamente el libro'}],
+            this.cargarLibros();
+          },
+          error:(e) =>{
+            console.log(e);
+            this.mensajes=[{severity:'error',summary:'Error al eliminar',detail:e.error}];
+          }
+        });
+      }
     });
   }
-
 }
+
 
