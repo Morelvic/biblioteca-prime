@@ -4,9 +4,10 @@
      pButton
      label="Agregar" 
      icon="pi pi-plus" 
-     (click)="mostrarDialogo()">
+     (click)="nuevo()">
     </button>
 </div>
+<p-messages [(value)]="mensajes"></p-messages>
 <p-table
      [value]="listaLibros"
      [loading]="cargando"
@@ -28,6 +29,10 @@
             <td>{{ libro.titulo }}</td>
             <td>{{ libro.autor }}</td>
             <td>{{ libro.paginas }}</td>
+            <td>
+                <button pButton type="button" icon="pi pi-pencil" style="right: 5px;" (click)="editar(libro)"></button>
+                <button pButton type="button" icon="pi pi-trash" class="p-button-danger" (click)="eliminar(libro)"></button>
+            </td>
         </tr>
         </ng-template>
 </p-table>
@@ -37,4 +42,10 @@ hearder="Resgistrar Libro"
 [(visible)]="dialogoVisible" 
 [modal]="true">
     <app-formulario-libro (recargarLibros)="cargarLibros()"></app-formulario-libro>
+<p-dialog 
+[header]="tituloDialogo"
+[(visible)]="dialogoVisible"
+[modal]="true">
+    <app-formulario-libro #formulario (recargarLibros)="cargarLibros()"></app-formulario-libro>
 </p-dialog>
+<p-confirmDialog header="Confirmar" icon="pi pi-exclamation-triangle"></p-confirmDialog>

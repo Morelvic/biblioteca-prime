@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Message } from 'primeng/api/message';
 import { Libro } from 'src/app/interfaces/libro.interface';
 import { LibrosService } from 'src/app/servicios/libros.service';
+import { Message } from 'primeng/api';
+
 
 
 @Component({
@@ -24,7 +25,7 @@ export class FormularioLibroComponent implements OnInit {
   guardando: boolean = false;
   mensajes: Message[] = [];
 
-
+  modo: 'Registrar' | 'Editar' = 'Registrar';
   @Output()
   recargarLibros: EventEmitter<boolean> = new EventEmitter();
 
@@ -38,7 +39,7 @@ export class FormularioLibroComponent implements OnInit {
 
   guardar(){
     this.validar();
-    if(this.codigoValido && this.tituloValido && this.autorValido && this.paginasValido){
+    if(this.validar()){
       const libro: Libro = {
         id: this.codigo,
         titulo: this.titulo,
@@ -49,40 +50,72 @@ export class FormularioLibroComponent implements OnInit {
       this.guardando = true;
       this.servicioLibros.post(libro).subscribe({
         next: () => {
-          this.guardando = false;
+          this.guardando = true;
           this.mensajes = [{severity: 'success', summary: 'Éxito', detail: 'Se registró el libro'}];
           this.recargarLibros.emit(true);
         },
         error: (e) => {
           this.guardando = false;
           console.log(e);
-          this.mensajes = [{severity: 'error', summary: 'Error al registrar', detail: e.error}];
+          this.mensajes = [{severity: 'error', summary: 'Error al registrar', detail: 'e.error'}];
         }
       });
+      if (this.modo === 'Registrar') {
+        this.registrar(libro);
+      } else {
+        this.editar(libro);
+      }
 
     }
   }
 
-validar(): boolean{
- 
-this.codigoValido = this.codigo !== null
-this.tituloValido = this.titulo !== null && this.titulo?.length > 0;
-this.autorValido = this.autor !== null && this.autor?.length > 0;
-this.paginasValido = this.paginas !== null;
-return this.codigoValido && this.tituloValido && this.autorValido && this.paginasValido;
+  private registrar(libro: Libro) {
+    this.guardando = true;
+    this.servicioLibros.post(libro).subscribe({
+      next: () => {
+        this.guardando = false;
+        this.mensajes = [{severity: 'success', summary: 'Exito', detail: 'Se registro el libro' }];
+        this.recargarLibros.emit(true);
+      },
+      error: (e) => {
+        this.guardando = false;
+        console.log(e);
+        this.mensajes = [{severity: 'error', summary: 'error al registrar', detail: 'e.error' }];
+      }
+    });
+  }
+  private editar(libro: Libro) {
+    this.guardando = true;
+    this.servicioLibros.put(libro).subscribe({
+      next: () => {
+        this.guardando = false;
+        this.mensajes = [{severity: 'success', summary: 'Exito', detail: 'Se edito el libro' }]
+        this.recargarLibros.emit(true);
+      },
+      error: (e) => {
+        this.guardando = false;
+        console.log(e);
+        this.mensajes = [{severity: 'error', summary: 'Error al editar libro', detail: e.error }];
+      }
+    });
+  }
+  validar(): boolean {
+    this.codigoValido = this.codigo !== null//estamos llamando a que ejecute estas funciones
+    this.tituloValido = this.titulo !== null && this.titulo?.length > 0;
+    this.autorValido = this.autor !== null && this.autor?.length > 0;
+    this.paginasValido = this.paginas !== null;
+    return this.codigoValido && this.tituloValido && this.autorValido && this.paginasValido;
+  }
+  limpiarFormulario(){
+    this.codigo=null;
+    this.titulo=null;
+    this.autor=null;
+    this.paginas=null;
 
-}
-limpiarFormulario(){
-  this.codigo=null;
-  this.titulo=null;
-  this.autor=null;
-  this.paginas=null;
-
-  this.codigoValido = true;
-  this.tituloValido = true;
-  this.autorValido = true;
-  this.paginasValido = true;
-  this.mensajes = [];
-}
-
+    this.codigoValido = true;
+    this.tituloValido = true;
+    this.autorValido = true;
+    this.paginasValido = true;
+    this.mensajes = [];
+  }
 }
