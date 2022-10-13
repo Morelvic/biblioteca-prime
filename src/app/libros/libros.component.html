@@ -1,51 +1,41 @@
 <div class="tarjeta">
-    <div style="margin-bottom: 15px;">
-    <button
-     pButton
-     label="Agregar" 
-     icon="pi pi-plus" 
-     (click)="nuevo()">
-    </button>
-</div>
+    <div style="margin-bottom:15px;">
+        <button pButton label="Agregar" icon="pi pi-plus" (click)="nuevo()"></button>
+    </div>
 <p-messages [(value)]="mensajes"></p-messages>
-<p-table
-     [value]="listaLibros"
-     [loading]="cargando"
-     [paginator]="true" 
-     [rows]="10" 
-     [rowsPerPageOptions]="[10, 25, 50]"
-     responsiveLayout="scroll">
-    <ng-template pTemplate="hearder">
-        <tr>
-            <th>Código</th>
-            <th>Título</th>
-            <th>Autor</th>
-            <th>Nro. Páginas</th>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-libro>
-        <tr>
-            <td>{{ libro.id }}</td>
-            <td>{{ libro.titulo }}</td>
-            <td>{{ libro.autor }}</td>
-            <td>{{ libro.paginas }}</td>
-            <td>
+    <p-table
+     [value]="listaLibros" 
+     [loading]="cargando" 
+     [paginator]="true"
+     [rows]="10"[rowsPerPageOptions]="[10,25,50]"
+responsiveLayout="scroll">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Codigo</th>
+                <th>Titulo</th>
+                <th>Autor</th>
+                <th>Nro.Paginas</th>
+                <th>Acciones</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-libro>
+            <tr>
+                <td>{{libro.idlibro}}</td>
+                <td>{{libro.titulo}}</td>
+                <td>{{libro.autor}}</td>
+                <td>{{libro.paginas}}</td>
+                <td>
                 <button pButton type="button" icon="pi pi-pencil" style="right: 5px;" (click)="editar(libro)"></button>
+                
                 <button pButton type="button" icon="pi pi-trash" class="p-button-danger" (click)="eliminar(libro)"></button>
             </td>
-        </tr>
+            </tr>
         </ng-template>
-</p-table>
-</div>
-<p-dialog 
-hearder="Resgistrar Libro" 
-[(visible)]="dialogoVisible" 
-[modal]="true">
-    <app-formulario-libro (recargarLibros)="cargarLibros()"></app-formulario-libro>
-<p-dialog 
-[header]="tituloDialogo"
-[(visible)]="dialogoVisible"
-[modal]="true">
-    <app-formulario-libro #formulario (recargarLibros)="cargarLibros()"></app-formulario-libro>
-</p-dialog>
-<p-confirmDialog header="Confirmar" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+    </p-table>
+    <p-dialog
+     [header]="tituloDialogo" 
+    [(visible)]="dialogoVisible" 
+    [modal]="true">
+        <app-formulario-libro #formulario (recargarLibros)="cargarLibros()"></app-formulario-libro>
+    </p-dialog>
+    <p-confirmDialog header="Confirmar" icon="pi pi-exclamation-triangle"></p-confirmDialog> 
