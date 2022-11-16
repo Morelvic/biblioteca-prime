@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ConfirmationService, Message } from 'primeng/api';
 import { Messages } from 'primeng/messages';
 import { Libro } from '../interfaces/libro.interface';
-import { FormularioLibroComponent } from '../libros/formulario-libro/formulario-libro.component';
+import { FormularioLibroComponent } from '../formulario-libro/formulario-libro.component';
 import { LibrosService } from '../servicios/libros.service';
 @Component({
   selector: 'app-libros',
@@ -19,11 +19,12 @@ dialogoVisible:boolean= false;// indica que el dialogo este visible
 
 mensajes: Message[]=[];
 tituloDialogo: string = 'Registrar libro';
-  constructor(private servicioLibros: LibrosService, private servicioConfirm: ConfirmationService) { }
+  constructor(private servicioLibros: LibrosService, private servicioConfirm:ConfirmationService) { }
 
   ngOnInit(): void {
     this.cargarLibros();
   }
+
   cargarLibros(): void {
     this.servicioLibros.get().subscribe({
       next: (datos) => {
@@ -38,27 +39,28 @@ tituloDialogo: string = 'Registrar libro';
       }
     });
   }
-
+  
   nuevo(){
     this.tituloDialogo ='Registrar libro';
     this.formLibro.limpiarFormulario();
+    this.formLibro.cargarAutores();
     this.formLibro.modo ='Registrar';
     this.dialogoVisible= true;
   }
   editar(libro:Libro){
     console.log(libro);
-    this.formLibro.codigo= libro.id;
+    this.formLibro.codigo= libro.idlibro;
     this.formLibro.titulo= libro.titulo;
-    this.formLibro.autor= libro.autor;
+    this.formLibro.idautor = libro.idautor;
+    this.formLibro.cargarAutores();
     this.formLibro.paginas= libro.paginas;
     this.formLibro.modo ='Editar';
     this.dialogoVisible = true;
     this.tituloDialogo = "Editar libro";
   }
-
   eliminar(libro:Libro){
     this.servicioConfirm.confirm({
-      message:"¿Realmente desea eliminar el libro:'"+libro.id+"-"+libro.titulo+"-"+libro.autor+"'?'?",
+      message:"¿Realmente desea eliminar el libro:'"+libro.idlibro+"-"+libro.titulo+"-"+libro.autor+"'?'?",
       acceptLabel:'Eliminar',
       rejectLabel:'Canselar',
       acceptButtonStyleClass:'p-button-danger',
@@ -78,5 +80,3 @@ tituloDialogo: string = 'Registrar libro';
     });
   }
 }
-
-

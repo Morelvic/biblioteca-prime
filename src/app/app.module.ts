@@ -12,7 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { TableModule } from 'primeng/table';
 import { CardModule } from 'primeng/card';
 import { DialogModule } from 'primeng/dialog';
-import { FormularioLibroComponent } from './libros/formulario-libro/formulario-libro.component';
+import { FormularioLibroComponent } from './formulario-libro/formulario-libro.component';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber'
 import { FormsModule } from '@angular/forms';
@@ -20,6 +20,7 @@ import { MessageModule } from 'primeng/message';
 import { MessagesModule } from 'primeng/messages';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
+import { DropdownModule } from 'primeng/dropdown';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,7 @@ import { ConfirmationService } from 'primeng/api';
     MessagesModule,
     MessageModule,
     ConfirmDialogModule,
-    
+    DropdownModule
   ],
   providers: [ConfirmationService],
   bootstrap: [AppComponent]
